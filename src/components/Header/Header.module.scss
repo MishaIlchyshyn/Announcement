@@ -1,0 +1,14 @@
+.Header {
+  background: #ea7676;
+  padding: 20px 50px;
+}
+
+.link {
+  color: #000000;
+
+  padding: 0 10px;
+  transition: 0.5s;
+  &:hover {
+    color: #636363;
+  }
+}

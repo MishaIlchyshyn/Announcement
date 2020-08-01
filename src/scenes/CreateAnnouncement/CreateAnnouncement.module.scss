@@ -1,0 +1,58 @@
+.Create {
+  border: 2px solid #ea7676;
+  width: 50%;
+  margin: 100px auto;
+  padding: 40px;
+  border-radius: 5px;
+  .containerInput {
+    margin-top: 25px;
+    .label {
+      text-transform: uppercase;
+      font-style: 20px;
+      display: block;
+    }
+    .input,
+    .textarea {
+      width: 91%;
+      font-size: 18px;
+      margin-top: 5px;
+      border-radius: 5px;
+      outline: none;
+      border: 1px solid #cecece;
+    }
+    .input {
+      line-height: 40px;
+      padding: 0px 5%;
+    }
+    .textarea {
+      display: block;
+      padding: 5%;
+      height: 200px;
+    }
+    .create {
+      color: #1f1e1e;
+      font-size: 18px;
+      text-transform: uppercase;
+      padding: 17px 0;
+      border: 1px solid #cecece;
+      border-radius: 5px;
+      width: 80%;
+      margin: 0 auto;
+      display: block;
+      cursor: pointer;
+      background-color: #9eb980;
+      transition: 0.3s;
+      outline: none;
+      &:hover {
+        background-color: #728859;
+      }
+    }
+  }
+  .title {
+    margin: 0;
+    margin-bottom: 45px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: normal;
+  }
+}
