@@ -1,9 +1,12 @@
 import React from "react";
 import s from "./CreateAnnouncement.module.scss";
 import { useFormik } from "formik";
+import { connect } from "react-redux";
 import Input from "../../components/Input/Input";
+import { compose, withState, withHandlers } from "recompose";
+import * as announcementsOperations from "../../modules/announcements/announcementsOperations";
 
-const CreateAnnouncement = () => {
+const CreateAnnouncement = ({ handleAddAnnouncement, list }) => {
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -11,11 +14,7 @@ const CreateAnnouncement = () => {
     },
   });
 
-  const onSubmit = (value) => {
-    console.log(value);
-  };
-
-  //   console.log(formik.values);
+  console.log(list);
 
   return (
     <div className={s.Create}>
@@ -46,7 +45,10 @@ const CreateAnnouncement = () => {
       </div>
 
       <div className={s.containerInput}>
-        <button className={s.create} onClick={() => onSubmit(formik.values)}>
+        <button
+          className={s.create}
+          onClick={() => handleAddAnnouncement(formik.values)}
+        >
           Create
         </button>
       </div>
@@ -54,4 +56,22 @@ const CreateAnnouncement = () => {
   );
 };
 
-export default CreateAnnouncement;
+const mapDispatchToProps = {
+  addAnnouncement: announcementsOperations.actions.addAnnouncement,
+};
+
+const mapStateToProps = (state) => ({
+  list: state.announcements.announcements,
+});
+
+const enhancer = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withState(),
+  withHandlers({
+    handleAddAnnouncement: (props) => (data) => {
+      props.addAnnouncement(data);
+    },
+  })
+);
+
+export default enhancer(CreateAnnouncement);

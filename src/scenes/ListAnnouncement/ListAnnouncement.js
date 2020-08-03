@@ -1,39 +1,47 @@
 import React from "react";
+import { compose, withState, withHandlers } from "recompose";
+import { connect } from "react-redux";
 
+import s from "./ListAnnouncement.module.scss";
 import Announcement from "../../components/Announcement/Announcement";
+import { Link } from "react-router-dom";
 
-const ListAnnouncement = () => {
-  const List = [
-    {
-      title: "first announcement",
-      description: "first announcement description",
-      createDate: "25.09.2020",
-    },
-    {
-      title: "first announcement 1",
-      description: "first announcement description 1",
-      createDate: "25.09.2020",
-    },
-    {
-      title: "first announcement 2",
-      description: "first announcement description 2",
-      createDate: "25.09.2020",
-    },
-  ];
-
+const ListAnnouncement = ({ list }) => {
   return (
     <div>
-      {List.map((annoncement) => {
-        return (
-          <Announcement
-            title={annoncement.title}
-            description={annoncement.description}
-            date={annoncement.createDate}
-          />
-        );
-      })}
+      {list.length === 0 ? (
+        <div className={s.emptyList}>
+          Not data. <Link to="/create">Create</Link> a new announcement
+        </div>
+      ) : (
+        list.map((annoncement) => {
+          return (
+            <Announcement
+              title={annoncement.title}
+              description={annoncement.description}
+              date={annoncement.createDate}
+            />
+          );
+        })
+      )}
     </div>
   );
 };
 
-export default ListAnnouncement;
+const mapDispatchToProps = {};
+
+const mapStateToProps = (state) => ({
+  list: state.announcements.announcements,
+});
+
+const enhancer = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withState(),
+  withHandlers({
+    handleAddAnnouncement: (props) => (data) => {
+      props.addAnnouncement(data);
+    },
+  })
+);
+
+export default enhancer(ListAnnouncement);
