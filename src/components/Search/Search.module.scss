@@ -1,0 +1,31 @@
+.searchBlock {
+  display: flex;
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.btnSearch {
+  border: none;
+  border-radius: 5px;
+  padding: 2px 10px;
+  outline: none;
+  background-color: #bcb8ce;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: 0.3s;
+  &:hover {
+    background-color: #d5d4d8;
+  }
+}
+
+.input {
+  width: 185px;
+  font-size: 16px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #cecece;
+  line-height: 15px;
+  padding: 3px 8px;
+}

@@ -1,14 +1,13 @@
 import React from "react";
-import s from "./CreateAnnouncement.module.scss";
+import s from "./EditAnnouncement.module.scss";
 import { useFormik } from "formik";
 import { connect } from "react-redux";
 import Input from "../../components/Input/Input";
-import { v4 as uuidv4 } from "uuid";
 import { compose, withState, withHandlers } from "recompose";
 import * as announcementsOperations from "../../modules/announcements/announcementsOperations";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
-const CreateAnnouncement = ({ handleAddAnnouncement, list }) => {
+const EditAnnouncement = ({ list, handleEditAnnouncement }) => {
   const validate = (values) => {
     const errors = {};
     if (!values.title) {
@@ -29,11 +28,14 @@ const CreateAnnouncement = ({ handleAddAnnouncement, list }) => {
   const history = useHistory();
   console.log(history);
 
+  const { id } = useParams();
+  const findAnnouncement = list.find((item) => item.id === id);
+
   const formik = useFormik({
     initialValues: {
-      title: "",
-      description: "",
-      id: "",
+      title: findAnnouncement.title,
+      description: findAnnouncement.description,
+      id: findAnnouncement.id,
     },
     validate,
   });
@@ -41,8 +43,8 @@ const CreateAnnouncement = ({ handleAddAnnouncement, list }) => {
   console.log(list);
 
   return (
-    <div className={s.Create}>
-      <h2 className={s.title}>Create Announcement</h2>
+    <div className={s.Edit}>
+      <h2 className={s.title}>Edit Announcement</h2>
 
       <div className={s.containerInput}>
         <label className={s.label}>
@@ -80,11 +82,11 @@ const CreateAnnouncement = ({ handleAddAnnouncement, list }) => {
 
       <div className={s.containerInput}>
         <button
-          className={s.create}
+          className={s.edit}
           disabled={!(formik.isValid && formik.dirty)}
-          onClick={() => handleAddAnnouncement(formik.values, history)}
+          onClick={() => handleEditAnnouncement(formik.values, history)}
         >
-          Create
+          Edit
         </button>
       </div>
     </div>
@@ -92,24 +94,23 @@ const CreateAnnouncement = ({ handleAddAnnouncement, list }) => {
 };
 
 const mapDispatchToProps = {
-  addAnnouncement: announcementsOperations.actions.addAnnouncement,
+  editAnnouncement: announcementsOperations.actions.editAnnouncement,
 };
 
 const mapStateToProps = (state) => ({
-  list: state.announcements.announcements,
+  list: state.announcements.allList.announcements,
 });
 
 const enhancer = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withState(),
   withHandlers({
-    handleAddAnnouncement: (props) => (data, history) => {
-      data.id = uuidv4();
+    handleEditAnnouncement: (props) => (data, history) => {
       data.date = new Date();
-      props.addAnnouncement(data);
+      props.editAnnouncement(data);
       history.push("/");
     },
   })
 );
 
-export default enhancer(CreateAnnouncement);
+export default enhancer(EditAnnouncement);
