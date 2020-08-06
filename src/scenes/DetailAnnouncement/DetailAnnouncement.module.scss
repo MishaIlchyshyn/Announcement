@@ -1,0 +1,57 @@
+.findAnnouncement {
+  border: 1px solid;
+  width: 60%;
+  margin: auto;
+  margin-top: 30px;
+  padding: 10px 30px;
+}
+
+.title {
+  color: #714e4e;
+}
+
+.description {
+  color: "#5e4949";
+}
+
+.buttonsContainer {
+  margin-top: 10px;
+  .edit,
+  .delete {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 2px 10px;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .edit {
+    background-color: #f9d66e;
+    margin-right: 5px;
+    &:hover {
+      background-color: #ffefbe;
+    }
+  }
+  .delete {
+    background-color: #e46b62;
+    transition: 0.3s;
+    &:hover {
+      background-color: #f5c1bd;
+    }
+  }
+}
+
+.date {
+  display: block;
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+.similar > h2 {
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+.noSimilar {
+  margin-left: 100px;
+}
