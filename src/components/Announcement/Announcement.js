@@ -1,10 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import s from "./Announcement.module.scss";
 import { routes } from "../../routes";
 
 const Announcement = ({ title, description, date, id, deleteAnnouncement }) => {
-  var dateFormat = require("dateformat");
+  const dateFormat = require("dateformat");
+
+  const history = useHistory();
 
   return (
     <div className={s.Announcement}>
@@ -19,7 +21,10 @@ const Announcement = ({ title, description, date, id, deleteAnnouncement }) => {
         <Link to={`${routes.edit}/${id}`}>
           <button className={s.edit}>Edit</button>
         </Link>
-        <button className={s.delete} onClick={() => deleteAnnouncement(id)}>
+        <button
+          className={s.delete}
+          onClick={() => deleteAnnouncement(id, history)}
+        >
           Delete
         </button>
       </div>

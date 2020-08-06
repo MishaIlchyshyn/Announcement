@@ -6,10 +6,14 @@ import { Link } from "react-router-dom";
 import * as announcementsOperations from "../../modules/announcements/announcementsOperations";
 import s from "./DetailAnnouncement.module.scss";
 import { routes } from "../../routes";
-import { similar } from "../../features/similar";
+import { similar } from "../../utils/similar";
 import Announcement from "../../components/Announcement/Announcement";
 
-const DetailAnnouncement = ({ list, handleRemoveAnnouncement }) => {
+const DetailAnnouncement = ({
+  list,
+  handleRemoveAnnouncement,
+  removeSimilar,
+}) => {
   const dateFormat = require("dateformat");
 
   const { id } = useParams();
@@ -20,6 +24,12 @@ const DetailAnnouncement = ({ list, handleRemoveAnnouncement }) => {
 
   const similarAnn = similar(list, findAnnouncement, 3);
   console.log(similarAnn);
+
+  const similarArr = similarAnn.filter(
+    (annoncement) =>
+      annoncement.title !== findAnnouncement.title &&
+      annoncement.description !== findAnnouncement.description
+  );
 
   return (
     <div>
@@ -47,15 +57,20 @@ const DetailAnnouncement = ({ list, handleRemoveAnnouncement }) => {
 
       <div className={s.similar}>
         <h2>Similar Announcements:</h2>
-        {similarAnn.map((annoncement) => (
-          <Announcement
-            id={annoncement.id}
-            key={annoncement.id}
-            title={annoncement.title}
-            description={annoncement.description}
-            date={annoncement.date}
-          />
-        ))}
+        {similarArr.length === 0 ? (
+          <div className={s.noSimilar}>No similiar annoncement</div>
+        ) : (
+          similarArr.map((annoncement) => (
+            <Announcement
+              id={annoncement.id}
+              key={annoncement.id}
+              title={annoncement.title}
+              description={annoncement.description}
+              date={annoncement.date}
+              deleteAnnouncement={removeSimilar}
+            />
+          ))
+        )}
       </div>
     </div>
   );
@@ -77,6 +92,9 @@ const enhancer = compose(
       console.log(id);
       props.removeAnnouncement(id);
       history.push("/");
+    },
+    removeSimilar: (props) => (id) => {
+      props.removeAnnouncement(id);
     },
   })
 );
